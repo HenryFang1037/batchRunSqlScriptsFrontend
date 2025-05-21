@@ -1,0 +1,126 @@
+/* style.css 新增注册页样式 */
+/* 保持原有基础样式不变，新增以下内容 */
+@font-face {
+    font-family: 'CustomFont';
+    src: url('../fonts/NotoSerifSC-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    /*font-display: swap; !* 避免文字闪现 *!*/
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: CustomFont, system-ui, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*background: linear-gradient(135deg, #667eea, #764ba2);*/
+    transition: background 0.5s ease;
+}
+
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: -1;
+}
+
+
+/* 登出按钮 */
+.logout-btn {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* 新增页眉样式 */
+.page-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    /*background: #6366f1;*/
+    background: #23272b;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+/* 新增页脚样式 */
+.page-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    /*background: #6366f1;*/
+    background: #23272b;
+    /*#6366f1;*/
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+/* 自定义弹窗样式 */
+.swal2-popup {
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.swal2-title {
+    font-size: 1.1rem !important;
+    font-weight: 500 !important;
+}
+
+/* 成功样式 */
+.swal2-success {
+    color: #166534 !important;
+    border-color: #bbf7d0 !important;
+}
+
+/* 错误样式 */
+.swal2-error {
+    color: #991b1b !important;
+    border-color: #fecaca !important;
+}
+
+/* 警告样式 */
+.swal2-warning {
+    color: #92400e !important;
+    border-color: #fde68a !important;
+}

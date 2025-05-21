@@ -1,0 +1,91 @@
+/* 外层布局保持水平等宽 */
+.form-row {
+    display: flex;
+    gap: 15px;
+    padding: 0;
+    list-style: none;
+}
+
+.form-item {
+    flex: 1;
+    min-width: 200px;
+    /*height: 80px*/
+}
+
+/* 内部元素水平排列关键代码 */
+.form-item-inner {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    gap: 10px; /* 标签与输入框间距 */
+    width: 100%;
+}
+
+.form-label {
+    flex-shrink: 0; /* 防止标签被压缩 */
+    min-width: 100px; /* 统一标签宽度 */
+    font-weight: bold;
+}
+
+input#model_name.form-control {
+    /*flex: 1;               !* 输入框占据剩余空间 *!*/
+    /*min-width: 120px; !* 防止过度压缩 *!*/
+    height: 58px;
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+textarea#description.form-control {
+    /*flex: 1;               !* 输入框占据剩余空间 *!*/
+    /*min-width: 120px; !* 防止过度压缩 *!*/
+    height: 58px;
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input#model_file.form-control {
+    /*flex: 1;               !* 输入框占据剩余空间 *!*/
+    /*min-width: 120px; !* 防止过度压缩 *!*/
+    height: 58px;
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input#file-upload-button {
+    height: 20px;
+    margin-top: auto;
+    /*padding: inherit;*/
+}
+
+/* 按钮特殊处理 */
+.btn-success {
+    width: 50%;
+    height: 38px; /* 与输入框高度对齐 */
+    margin-top: 24px; /* 补偿标签高度 */
+}
+
+/* 响应式处理 */
+@media (max-width: 768px) {
+    .form-row {
+        flex-wrap: wrap;
+    }
+
+    .form-item {
+        flex: 100%;
+    }
+
+    .form-item-inner {
+        flex-direction: column; /* 小屏时标签和输入框改为垂直 */
+        align-items: stretch;
+    }
+
+    .form-label {
+        min-width: auto;
+    }
+
+    .btn-success {
+        margin-top: 0;
+    }
+}

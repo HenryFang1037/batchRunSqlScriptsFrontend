@@ -1,0 +1,68 @@
+{% extends "dash.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}">
+{% endblock %}
+
+{% block sub_content %}
+    <div id="data-detail" class="content-section active">
+        <!-- 任务输入表单 -->
+        <div class="form-container">
+            <div class="module-header">
+                <h3><i class="fas fa-file-alt"></i> 数据下载
+                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#query">下载明细数据
+                    </button>
+                </h3>
+            </div>
+            <!-- 数据展示区域 -->
+            <div class="detail-table" style="text-align: center">
+                <div class="task-download-header">
+                    <div>任务编号</div>
+                    <div>银行机构</div>
+                    <div>模型组名称</div>
+                    <div>表名称</div>
+                    <div>采集日期</div>
+                    <div>下载明细</div>
+                </div>
+                {% if records %}
+                    {% for record in records %}
+                        <div class="task-download-row">
+                            <div class="taskNumber">{{ record[0] }}</div>
+                            <div class="bankName">{{ record[1] }}</div>
+                            <div class="modelName">{{ record[2] }}</div>
+                            <div class="tableName">{{ record[3] }}</div>
+                            <div class="collectDate">{{ record[4] }}</div>
+                            <div class="download-btn">
+                                <a href="{{ url_for('main.download_records', task_id=record[0]) }}"></a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <!-- 新增模型模态框 -->
+        <div class="modal fade" id="query" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">下载明细数据</h4>
+                    </div>
+                    <form method="POST" action="{{ url_for('main.records_panel') }}">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>任务编号</label>
+                                <input id="task_id" name="task_id" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

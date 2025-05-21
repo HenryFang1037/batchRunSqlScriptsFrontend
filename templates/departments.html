@@ -1,0 +1,73 @@
+<!-- templates/admin.html -->
+{% extends "dash.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}">
+{% endblock %}
+
+{% block sub_content %}
+    <div id="department-detail" class="content-section active" style="margin-top: 80px">
+        <div class="form-container">
+            <div class="module-header" id="departments">
+                <h3><i class="fas fa-file-alt"></i> 部门管理
+                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addDeptModal">新增部门
+                    </button>
+                </h3>
+            </div>
+            <table class="table table-borderless table-hover" style="text-align: center">
+                <thead>
+                <tr>
+                    <th>部门名称</th>
+                    <th>部门代码</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for dept in departments %}
+                    <tr>
+                        <td>{{ dept.name }}</td>
+                        <td>{{ dept.code }}</td>
+                        <td>{{ dept.created_at }}</td>
+                        <td>
+                            {#                        <button class="btn btn-warning btn-sm edit-dept"#}
+                            {#                                data-deptid="{{ dept.id }}">编辑</button>#}
+                            <a href="{{ url_for('main.delete_department', dept_id=dept.id) }}"
+                               class="btn btn-danger btn-sm">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 新增部门模态框 -->
+        <div class="modal fade" id="addDeptModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">新增部门</h4>
+                    </div>
+                    <form method="POST" action="{{ url_for('main.add_department') }}">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>部门名称</label>
+                                <input type="text" name="name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>部门代码</label>
+                                <input type="text" name="code" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

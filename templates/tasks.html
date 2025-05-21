@@ -1,0 +1,104 @@
+{% extends "dash.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}"></link>
+{% endblock %}
+
+{% block sub_content %}
+    <div id="task-submit" class="content-section active">
+        <div class="form-container">
+            <div class="module-header" id="tasks">
+                <h3><i class="fas fa-edit"></i>当前任务
+                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addModel">提交任务</button>
+                </h3>
+            </div>
+            <div class="t" style="text-align: center">
+                <table class="table table-borderless">
+                    <thead>
+                    <tr>
+                        <th>提交部门</th>
+                        <th>任务编号</th>
+                        <td>机构名称</td>
+                        <td>查询日期</td>
+                        <th>总规则数</th>
+                        <td>已执行数</td>
+                        <th>任务状态</th>
+                        <th>是否取消</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for task in tasks %}
+                        <tr>
+                            <td>{{ task['提交部门'] }}</td>
+                            <td>{{ task['任务编号'] }}</td>
+                            <td>{{ task['机构名称'] }}</td>
+                            <td>{{ task['查询日期'] }}</td>
+                            <td>{{ task['总规则数'] }}</td>
+                            <td>{{ task['已执行数'] }}</td>
+                            <td>
+                                <div class="task-status">
+                                    <span class="status-badge {{ task['任务状态']|replace('执行', '')|lower }}">{{ task['任务状态'] }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="task-cancel">
+                                    <form method="post" class="cancel-form" name="cancel-form">
+                                        <input type="hidden" name="task_id" value="{{ task['任务编号'] }}">
+                                        <div class="select-wrapper">
+                                            <select name="cancel_task" class="cancel-select"
+                                                    onchange="">
+                                                <option value="no" selected>否</option>
+                                                <option value="yes">是</option>
+                                            </select>
+                                            <div class="select-arrow"></div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- 新增模型模态框 -->
+        <div class="modal fade" id="addModel" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">提交任务</h4>
+                    </div>
+                    <form method="POST" action="{{ url_for('main.add_task') }}">
+                        {{ form.hidden_tag() }}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>机构名称</label>
+                                {{ form.bank_name(class="form-control") }}
+                            </div>
+                            <div class="form-group">
+                                <label>模型组名称</label>
+                                {{ form.model_name(class="form-control") }}
+                            </div>
+                            <div class="form-group">
+                                <label>查询日期</label>
+                                <input type="date" id="check_date" name="check_date" value="2025-01-31" required>
+                            </div>
+                            <div class="form-group">
+                                <label>执行时间</label>
+                                <input type="datetime-local" id="exec_time" name="exec_time" value="2025-04-20T23:55"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

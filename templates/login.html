@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"></link>
+{% endblock %}
+
+{% block content %}
+    <div class="login-container">
+        <div class="header"><h1>欢迎登录</h1></div>
+        <form id="loginForm" method="POST" action="{{ url_for('main.login') }}">
+            {{ form.hidden_tag() }}
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                {{ form.username(class="form-control", placeholder="用户名") }}
+                {#                <input type="text" id="username" name="username" placeholder="用户名" required>#}
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                {{ form.password(class="form-control", placeholder="密码") }}
+                {#                <input type="password" id="password" name="password" placeholder="密码" required>#}
+            </div>
+            {#            {{ form.submit(class="form-control btn-success", placeholder="登录") }}#}
+            <button type="submit">登录</button>
+            <div class="register-link">
+                没有账号？<a href="{{ url_for('main.register') }}">立即注册</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

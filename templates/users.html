@@ -1,0 +1,69 @@
+<!-- templates/admin.html -->
+{% extends "dash.html" %}
+
+{% block sub_content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}">
+
+    <div id="user-detail" class="content-section active">
+        <div class="form-container">
+            <div class="module-header">
+                <h3><i class="fas fa-file-alt"></i> 用户管理 </h3>
+            </div>
+            <!-- 所有用户 -->
+            <table class="table table-borderless table-hover datatable" style="text-align: center">
+                <thead>
+                <tr>
+                    <th>用户名</th>
+                    <th>邮箱</th>
+                    <th>部门</th>
+                    <th>权限</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <form method="POST" action="{{ url_for('main.edit_user') }}">
+                    {% for user in all_users %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                <select class="form-control department-select"
+                                        data-userid="{{ user.id }}" name="department">
+                                    {% for dept in departments %}
+                                        <option value="{{ dept.name }}" {{ 'selected' if dept.id == user.department_id }}>
+                                            {{ dept.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control role-select"
+                                        data-userid="{{ user.id }}" name="role">
+                                    <option value="user" {{ 'selected' if user.role == 'user' }}>普通用户</option>
+                                    <option value="manager" {{ 'selected' if user.role == 'manager' }}>管理员</option>
+                                    <option value="admin" {{ 'selected' if user.role == 'admin' }}>系统管理员</option>
+                                </select>
+                            </td>
+                            <td>
+                                {% if user.approved %}
+                                    <span class="label label-success">已激活</span>
+                                {% else %}
+                                    <span class="label label-warning">待审核</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <button class="btn btn-primary btn-sm save-changes"
+                                        data-userid="{{ user.id }}" name="user_id" value="{{ user.id }}">保存
+                                </button>
+                                <a href="{{ url_for('main.delete_user', user_id=user.id) }}"
+                                   class="btn btn-danger btn-sm">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </form>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

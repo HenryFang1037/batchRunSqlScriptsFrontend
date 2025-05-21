@@ -1,0 +1,55 @@
+<!-- templates/admin.html -->
+{% extends "dash.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}">
+{% endblock %}
+
+{% block sub_content %}
+    <div id="register-detail" class="content-section active">
+        <div class="form-container">
+            <div class="module-header">
+                <h3><i class="fas fa-file-alt"></i> 待审核用户</h3>
+            </div>
+
+            <!-- 主要内容区域 -->
+            <table class="table table-borderless table-hover" style="text-align: center">
+                <thead>
+                <tr>
+                    <th>用户名</th>
+                    <th>邮箱</th>
+                    <th>部门</th>
+                    <th>注册时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in pending_users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.department.name if user.department else '未分配' }}</td>
+                        <td>{{ user.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{{ url_for('main.approve_user', user_id=user.id) }}"
+                                   class="btn btn-success btn-sm">通过</a>
+                                <button class="btn btn-warning btn-sm edit-user"
+                                        data-userid="{{ user.id }}">编辑
+                                </button>
+                                <a href="{{ url_for('main.delete_user', user_id=user.id) }}"
+                                   class="btn btn-danger btn-sm">删除</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">暂无待审核用户</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

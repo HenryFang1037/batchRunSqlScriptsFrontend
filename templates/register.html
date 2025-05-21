@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}"></link>
+{% endblock %}
+
+{% block content %}
+    <div class="register-container">
+        <div class="header"><h1>用户注册</h1></div>
+        <form id="registerForm" method="post">
+            {{ form.hidden_tag() }}
+            <div class="input-group">
+                <i class="fas fa-airbnb"></i>
+                {{ form.department(class="form-control", placeholder="所属部门") }}
+                {#                <option type="text" id="department" name="department" placeholder="所属部门" required>#}
+            </div>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                {{ form.username(class="form-control", placeholder="用户名") }}
+                {#                <input type="text" id="username" name="username" placeholder="用户名" required>#}
+            </div>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                {{ form.email(class="form-control", placeholder="电子邮箱", type="email") }}
+                {#                <input type="email" id="email" name="email" placeholder="电子邮箱" required>#}
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock">密码</i>
+                {{ form.password(class="form-control", placeholder="密码") }}
+                {#                <input type="password" id="password" name="password" placeholder="密码(至少8位)" required>#}
+            </div>
+            <button type="submit">立即注册</button>
+            <div class="register-link">
+                已有账号？<a href="{{ url_for('main.login') }}">立即登录</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EAST模型批量运行平台</title>
+    <!-- 本地静态资源 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/min/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="preload" href="{{ url_for('static', filename='fonts/NotoSerifSC-Medium.ttf') }}" as="font"
+          type="font/ttf" crossorigin>
+
+    {% block styles %} {% endblock %}
+
+</head>
+{#<body style="background-image: url('../static/images/kevin-meng-VxUmMIH4ERs-unsplash.jpg'); background-size: cover;">#}
+<body>
+<header class="page-header" style="background-image: url('../static/images/bg1.jpg');">
+    <div class="header-content">
+        <h1>青海金融监管局 <span style="font-size: x-large">EAST模型批量运行平台</span></h1>
+    </div>
+    {% if current_user.is_authenticated %}
+        <form action="{{ url_for('main.logout') }}" method="post">
+            <button class="logout-btn" type="submit">登出</button>
+        </form>
+    {% endif %}
+</header>
+<div class="background-overlay"></div>
+{% block content %}{% endblock %}
+<footer class="page-footer" style="background-image: url('../static/images/bg1.jpg');">
+    <div class="footer-content">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4 text-center">
+                <p>国家金融监督管理总局青海监管局 CopyRight@2025</p>
+            </div>
+            <div class="col-4 text-right">
+                <p>联系人：方祖冰｜电话：0972-8688364</p>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- 本地JS资源 -->
+<script src="{{ url_for('static', filename='vendors/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendors/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendors/html5shiv/html5shiv.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendors/sweetalert/sweetalert2@11.js') }}"></script>
+<script>
+    window.onload = function () {
+        const messages = {{ get_flashed_messages(with_categories=true) | tojson | safe }};
+        if (typeof Swal === 'function') {
+            messages.forEach(([category, text]) => {
+                const typeMap = {
+                    'success': {icon: 'success', color: '#166534'},
+                    'error': {icon: 'error', color: '#dc2626'},
+                    'warning': {icon: 'warning', color: '#ca8a04'}
+                };
+                console.log(category, text);
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: typeMap[category].icon,
+                    title: text,
+                    showConfirmButton: false,
+                    timer: 3000,
+                    background: '#f8fafc',
+                    color: typeMap[category].color,
+                    customClass: {
+                        title: 'custom-swal-title'
+                    }
+                })
+            })
+        } else {
+            messages.forEach(([_, msg]) => alert(msg))
+        }
+    };
+</script>
+
+{% block scripts %}{% endblock %}
+
+</body>
+</html>

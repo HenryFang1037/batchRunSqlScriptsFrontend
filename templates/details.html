@@ -1,0 +1,69 @@
+{% extends "dash.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}">
+{% endblock %}
+
+{% block sub_content %}
+    <div id="task-detail" class="content-section active">
+        <div class="form-container">
+            <div class="module-header">
+                <h3><i class="fas fa-file-alt"></i> 任务详情
+                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#download">下载统计数据
+                    </button>
+                </h3>
+            </div>
+            <div class="detail-table" style="text-align: center">
+                <div class="task-detail-header">
+                    <div>任务编号</div>
+                    <div>银行机构</div>
+                    <div>校验表名</div>
+                    <div>校验字段</div>
+                    <div>规则编号</div>
+                    <div>错误类型</div>
+                    <div>任务状态</div>
+                    <div>疑点数量</div>
+                </div>
+                <!-- 动态内容示例 -->
+                {% if task_details %}
+                    {% for detail in task_details %}
+                        <div class="task-detail-row">
+                            <div>{{ detail['任务编号'] }}</div>
+                            <div>{{ detail['银行机构'] }}</div>
+                            <div>{{ detail['校验表名'] }}</div>
+                            <div>{{ detail['校验字段'] }}</div>
+                            <div>{{ detail['规则编号'] }}</div>
+                            <div>{{ detail['错误类型'] }}</div>
+                            <div><span class="status-tag {{ detail['任务状态'] }}">{{ detail['任务状态'] }}</span></div>
+                            <div>{{ detail['疑点数量'] }}</div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <!-- 新增模型模态框 -->
+        <div class="modal fade" id="download" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">下载明细数据</h4>
+                    </div>
+                    <form method="POST" action="{{ url_for('main.download_task_details') }}">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>任务编号</label>
+                                <input id="task_id" name="task_id" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
